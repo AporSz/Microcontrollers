@@ -1,5 +1,3 @@
-
-
 /*
 Microcontrollers 3.rd LAB
 GPIO - output and timer high level
@@ -7,7 +5,6 @@ GPIO - output and timer high level
 finite state machine 
 - a traffic light can be considered a finite state machine
 */
-
 
 byte pedestrian_red = 5;
 byte pedestrian_green = 6;
@@ -20,6 +17,7 @@ byte car_green = 10;
 
 byte state_of_the_machine = 1;
 
+byte buzzer = 4;
 
 /* finite state machine - it is in a given state
 it can go to some other state if there are conditions
@@ -31,7 +29,7 @@ it can go to some other state if there are conditions
 5 - switching back to cars: the green for pedestrians flashes
 6 - the pedestrian gets a red
 after this it could go back to state 1
- */
+*/
  
 byte pedestrian_button_state;
 
@@ -52,6 +50,8 @@ void setup()
   digitalWrite(car_green, 1);
   digitalWrite(car_yellow, 0);
   digitalWrite(car_red, 0);
+
+  pinMode(buzzer, OUTPUT);
     
   Serial.begin(9600);
 }
@@ -93,6 +93,7 @@ void loop()
     delay(500);  
     digitalWrite(pedestrian_red,0);
     digitalWrite(pedestrian_green,1);
+    tone(buzzer,15000,1000);
     state_of_the_machine = 5;
   }  
   else if (state_of_the_machine == 5)
