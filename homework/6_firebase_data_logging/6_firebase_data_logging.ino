@@ -16,12 +16,12 @@
 #include <FirebaseClient.h>
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
-#include <Adafruit_BME280.h>
+#include <Adafruit_BMP280.h>
 #include "time.h"
 
 // Network and Firebase credentials
-#define WIFI_SSID "Spreading Autism via 5G"
-#define WIFI_PASSWORD "uhhhhhhhh"
+#define WIFI_SSID "SSID"
+#define WIFI_PASSWORD "password"
 
 #define Web_API_KEY "AIzaSyBAOuQ48J54WIpQ3Gpk1FrJ9oJ0DVD1A6g"
 #define DATABASE_URL "https://homework-data-logging-default-rtdb.europe-west1.firebasedatabase.app/"
@@ -52,7 +52,6 @@ String uid;
 String databasePath;
 // Database child nodes
 String tempPath = "/temperature";
-String humPath = "/humidity";
 String presPath = "/pressure";
 String timePath = "/timestamp";
 
@@ -63,20 +62,20 @@ int timestamp;
 
 const char* ntpServer = "pool.ntp.org";
 
-// BME280 sensor
-Adafruit_BME280 bme; // I2C
+// BMP280 sensor
+Adafruit_BMP280 bmp; // I2C
 float temperature;
-float humidity;
 float pressure;
 
 // Create JSON objects for storing data
-object_t jsonData, obj1, obj2, obj3, obj4;
+object_t jsonData, obj1, obj2, obj3;
 JsonWriter writer;
 
-// Initialize BME280
-void initBME(){
-  if (!bme.begin(0x76)) {
-    Serial.println("Could not find a valid BME280 sensor, check wiring!");
+// Initialize BMP280
+void initBMP(){
+  // BMP280 address is usually 0x76 or 0x77
+  if (!bmp.begin(0x76)) {
+    Serial.println("Could not find a valid BMP280 sensor, check wiring!");
     while (1);
   }
 }
@@ -106,7 +105,7 @@ unsigned long getTime() {
 void setup(){
   Serial.begin(115200);
 
-  initBME();
+  initBMP();
   initWiFi();
   configTime(0, 0, ntpServer);
 
@@ -147,16 +146,14 @@ void loop(){
       parentPath= databasePath + "/" + String(timestamp);
 
       // Get sensor readings
-      temperature = bme.readTemperature();
-      humidity = bme.readHumidity();
-      pressure = bme.readPressure()/100.0;
+      temperature = bmp.readTemperature();
+      pressure = bmp.readPressure()/100.0;
 
       // Create a JSON object with the data
       writer.create(obj1, tempPath, temperature);
-      writer.create(obj2, humPath, humidity);
-      writer.create(obj3, presPath, pressure);
-      writer.create(obj4, timePath, timestamp);
-      writer.join(jsonData, 4, obj1, obj2, obj3, obj4);
+      writer.create(obj2, presPath, pressure);
+      writer.create(obj3, timePath, timestamp);
+      writer.join(jsonData, 3, obj1, obj2, obj3);
 
       Database.set<object_t>(aClient, parentPath, jsonData, processData, "RTDB_Send_Data");
     }
