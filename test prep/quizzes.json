@@ -1,0 +1,819 @@
+[
+  {
+    "quiz": 2,
+    "questions": [
+      {
+        "question": "For real time operation it is necessary to",
+        "options": [
+          "have a processor running as fast as possible at a high clock",
+          "to have control over what tasks are running and to have short operations (RISC architecture)"
+        ],
+        "correct": ["to have control over what tasks are running and to have short operations (RISC architecture)"]
+      },
+      {
+        "question": "The microcontroller stores the variables here:",
+        "options": [
+          "SRAM, this is fast but volatile (is lost when the power is turned off)",
+          "Flash, it remains there even when the power is turned off"
+        ],
+        "correct": ["SRAM, this is fast but volatile (is lost when the power is turned off)"]
+      },
+      {
+        "question": "A microcontroller controlling the airbag deployment in a car",
+        "options": [
+          "should have a short developement cycle with a fast mockup for the client",
+          "should be operating in real time with no errors in operation"
+        ],
+        "correct": ["should be operating in real time with no errors in operation"]
+      },
+      {
+        "question": "If I use a bootloader",
+        "options": [
+          "I lose a bit of flash space from the available program memory",
+          "it will start the program written on the microcontroller every time the board is turned on"
+        ],
+        "correct": ["I lose a bit of flash space from the available program memory"]
+      },
+      {
+        "question": "GPIO means:",
+        "options": [
+          "General Purpose Input and Output",
+          "Generic Pin for In and Out operations"
+        ],
+        "correct": ["General Purpose Input and Output"]
+      },
+      {
+        "question": "The Arduino concept is to",
+        "options": [
+          "have no peripheries and only connect what is needed as extra modularly with shields",
+          "have all the peripherals the student might need ready and connected on the PCB"
+        ],
+        "correct": ["have no peripheries and only connect what is needed as extra modularly with shields"]
+      },
+      {
+        "question": "The microcontroller stores the program here:",
+        "options": [
+          "SRAM, this is fast but volatile (is lost when the power is turned off)",
+          "Flash, it remains there even when the power is turned off"
+        ],
+        "correct": ["Flash, it remains there even when the power is turned off"]
+      },
+      {
+        "question": "General Purpose Computers",
+        "options": [
+          "were developed far after the microcontrollers were already in embedded systems everywhere",
+          "were developed about the same time as the first microcontrollers"
+        ],
+        "correct": ["were developed about the same time as the first microcontrollers"]
+      },
+      {
+        "question": "Far more of these are manufactured each year",
+        "options": [
+          "Microcontrollers",
+          "General Purpose Computers"
+        ],
+        "correct": ["Microcontrollers"]
+      },
+      {
+        "question": "Predictable latency means",
+        "options": [
+          "we know the delay accumulated already during the execution of the program",
+          "we know the max clock cycles before something can get executed"
+        ],
+        "correct": ["we know the max clock cycles before something can get executed"]
+      }
+    ]
+  },
+  {
+    "quiz": 3,
+    "questions": [
+      {
+        "question": "Instead of pinMode(13,INPUT); I could have written",
+        "options": [
+          "pinMode(13,1);",
+          "pinMode(13,0);"
+        ],
+        "correct": ["pinMode(13,0);"]
+      },
+      {
+        "question": "The PORTB register:",
+        "options": [
+          "sets the direction of the individual PINs",
+          "sets the value presented on the individual PINs"
+        ],
+        "correct": ["sets the value presented on the individual PINs"]
+      },
+      {
+        "question": "When I connect a PIN through a switch to GND",
+        "options": [
+          "I can set the PIN to INPUT it will read coirrectly",
+          "I have to set the PIN to INPUT_PULLUP to read coirrectly",
+          "unless the switch is pushed there is no value presented to the PIN",
+          "when I press it it is 0 when I do no press it is one"
+        ],
+        "correct": [
+          "I have to set the PIN to INPUT_PULLUP to read coirrectly",
+          "when I press it it is 0 when I do no press it is one"
+        ]
+      },
+      {
+        "question": "The inputs that Arduino UNO can use as an extrenal interrupt",
+        "options": [
+          "Digital Pins 2 and 3",
+          "All digital pins"
+        ],
+        "correct": ["Digital Pins 2 and 3"]
+      },
+      {
+        "question": "attachInterrupt(pin, ISR, mode), the ISR is:",
+        "options": [
+          "the name of the function it should jump to",
+          "the interrupt vector that called this function"
+        ],
+        "correct": ["the name of the function it should jump to"]
+      },
+      {
+        "question": "Instead of pinMode(13,OUTPUT); I could have written",
+        "options": [
+          "pinMode(13,1);",
+          "pinMode(13,0);"
+        ],
+        "correct": ["pinMode(13,1);"]
+      },
+      {
+        "question": "The DDR register:",
+        "options": [
+          "sets the direction of the individual PINs",
+          "sets the value presented on the individual PINs"
+        ],
+        "correct": ["sets the direction of the individual PINs"]
+      },
+      {
+        "question": "The inputs that Arduino UNO can sense on an extrenal interrupt",
+        "options": [
+          "HIGH, LOW, RISING, FALLING",
+          "CHANGE, LOW, RISING, FALLING"
+        ],
+        "correct": ["CHANGE, LOW, RISING, FALLING"]
+      },
+      {
+        "question": "ISR(vector): the vector means:",
+        "options": [
+          "the name of the function it should jump to",
+          "the interrupt vector that called this function"
+        ],
+        "correct": ["the interrupt vector that called this function"]
+      }
+    ]
+  },
+  {
+    "quiz": 4,
+    "questions": [
+      {
+        "question": "I want to write 2 to the common anode LED 7 segment",
+        "options": [
+          "abcdefg. = 0b00100101",
+          "abcdefg. = 0b11011010"
+        ],
+        "correct": ["abcdefg. = 0b00100101"]
+      },
+      {
+        "question": "I want an event every 60 ms (16MHz, prescaler 8):",
+        "options": [
+          "number of steps is = 16,000,000/8/(1000/60)",
+          "number of steps is = 16,000,000/8/60"
+        ],
+        "correct": ["number of steps is = 16,000,000/8/(1000/60)"]
+      },
+      {
+        "question": "When an overflow event happens",
+        "options": [
+          "the flag is always set",
+          "the interrupt always happens"
+        ],
+        "correct": ["the flag is always set"]
+      },
+      {
+        "question": "I want the overflow to happen every 3035 steps",
+        "options": [
+          "TCNT1= 65535 - 62500;",
+          "TCNT1= 62500;"
+        ],
+        "correct": ["TCNT1= 62500;"]
+      },
+      {
+        "question": "The three events that can happen in a timer:",
+        "options": [
+          "Overflow, Reached 0, Reached TOP",
+          "Overflow, Output Compare A, Output Compare B"
+        ],
+        "correct": ["Overflow, Output Compare A, Output Compare B"]
+      },
+      {
+        "question": "I want to write 2 to the common cathode LED 7 segment",
+        "options": [
+          "abcdefg. = 0b00100101",
+          "abcdefg. = 0b11011010"
+        ],
+        "correct": ["abcdefg. = 0b11011010"]
+      },
+      {
+        "question": "An event to happen 6000 times/s (16MHz, prescaler 8):",
+        "options": [
+          "number of steps is = 16,000,000/8/(1000/60)",
+          "number of steps is = 16,000,000/8/6000"
+        ],
+        "correct": ["number of steps is = 16,000,000/8/6000"]
+      },
+      {
+        "question": "When an output compare event happens",
+        "options": [
+          "the flag is always set",
+          "the interrupt always happens"
+        ],
+        "correct": ["the flag is always set"]
+      },
+      {
+        "question": "I want the overflow to happen every 62500 steps",
+        "options": [
+          "TCNT1= 65535 - 62500;",
+          "TCNT1= 62500;"
+        ],
+        "correct": ["TCNT1= 65535 - 62500;"]
+      },
+      {
+        "question": "If an interrupt is called while inside an ISR() already",
+        "options": [
+          "the other interrupt will execute after this one is done",
+          "the other interrupt will be lost it will not get called"
+        ],
+        "correct": ["the other interrupt will be lost it will not get called"]
+      }
+    ]
+  },
+  {
+    "quiz": 5,
+    "questions": [
+      {
+        "question": "Fast PWM mode counting",
+        "options": [
+          "Fast PWM counts from 0 to OCR then resets",
+          "Fast PWM counts from 0 to OVF like Normal mode"
+        ],
+        "correct": ["Fast PWM counts from 0 to OVF like Normal mode"]
+      },
+      {
+        "question": "I want to always count to max but have two iterrupts at a two different values:",
+        "options": [
+          "this is possible as there are two different OCR interrupts",
+          "this is not possible there is only one OCR interrupt"
+        ],
+        "correct": ["this is possible as there are two different OCR interrupts"]
+      },
+      {
+        "question": "When COM0A0..1 bit are set to clear",
+        "options": [
+          "OCR event clears, TOV event sets",
+          "OCR event sets, TOV event clears"
+        ],
+        "correct": ["OCR event clears, TOV event sets"]
+      },
+      {
+        "question": "Timer1 Capture event",
+        "options": [
+          "happens repeatedly when the timer reaches some value",
+          "happens when some output pins show a change"
+        ],
+        "correct": ["happens when some output pins show a change"]
+      },
+      {
+        "question": "CTC mode counting:",
+        "options": [
+          "CTC counts from 0 to OCR then resets",
+          "CTC counts from OCR to OVF"
+        ],
+        "correct": ["CTC counts from 0 to OCR then resets"]
+      },
+      {
+        "question": "I want to always count to max but have an iterrupt at a different value:",
+        "options": [
+          "this is possible with the OCR interrupt",
+          "this is not possible OVF is at the max"
+        ],
+        "correct": ["this is possible with the OCR interrupt"]
+      },
+      {
+        "question": "COM0A0..1 bit set",
+        "options": [
+          "what happens with the OCR output at compare (set, clear or toggle)",
+          "which PIN is the OCR pin"
+        ],
+        "correct": ["what happens with the OCR output at compare (set, clear or toggle)"]
+      },
+      {
+        "question": "FOC0A, FOC0B bits",
+        "options": [
+          "force an OCR event from software",
+          "are flags set when OCR happens"
+        ],
+        "correct": ["force an OCR event from software"]
+      },
+      {
+        "question": "Nobel Prize in Physics in 2014 was given for",
+        "options": [
+          "green LEDs",
+          "red LEDs",
+          "blue LEDs"
+        ],
+        "correct": ["blue LEDs"]
+      }
+    ]
+  },
+  {
+    "quiz": 6,
+    "questions": [
+      {
+        "question": "IR light:",
+        "options": [
+          "has shorter wavelength compared to visible light",
+          "has lower frequency compared to visible light",
+          "has longer wavelength compared to visible light",
+          "has higher frequency compared to visible light"
+        ],
+        "correct": [
+          "has longer wavelength compared to visible light",
+          "has lower frequency compared to visible light"
+        ]
+      },
+      {
+        "question": "Modulated IR light: the signal that modulates",
+        "options": [
+          "changes the amplitude of the carrier (to 0 or 1)",
+          "changes the frequency of the carrier like in FM radio"
+        ],
+        "correct": ["changes the amplitude of the carrier (to 0 or 1)"]
+      },
+      {
+        "question": "RC5 protocol",
+        "options": [
+          "has the same length of pulses for 0 and 1",
+          "has much longer dark pulse for 1 compared to 0"
+        ],
+        "correct": ["has the same length of pulses for 0 and 1"]
+      },
+      {
+        "question": "UART is",
+        "options": [
+          "synchron and asymmetric",
+          "asynchron and symmetric"
+        ],
+        "correct": ["asynchron and symmetric"]
+      },
+      {
+        "question": "The three errors in UART are:",
+        "options": [
+          "RXC, TXC and UDRE",
+          "DOR, FE, PE"
+        ],
+        "correct": ["DOR, FE, PE"]
+      },
+      {
+        "question": "Modulated signals:",
+        "options": [
+          "have a fast carrier component that is modulated by the slow signal component",
+          "have a slow carrier component that is modulated by the fast signal component"
+        ],
+        "correct": ["have a fast carrier component that is modulated by the slow signal component"]
+      },
+      {
+        "question": "IR communication",
+        "options": [
+          "encodes the 0s and 1s in the frequency of the IR light",
+          "encodes the 0s and 1s in the timing of the light and dark pulses"
+        ],
+        "correct": ["encodes the 0s and 1s in the timing of the light and dark pulses"]
+      },
+      {
+        "question": "The three events in UART are:",
+        "options": [
+          "RXC, TXC and UDRE",
+          "DOR, FE, PE"
+        ],
+        "correct": ["RXC, TXC and UDRE"]
+      }
+    ]
+  },
+  {
+    "quiz": 7,
+    "questions": [
+      {
+        "question": "1W is a protocol that is:",
+        "options": [
+          "asynchron and symmetric",
+          "asynchron and asymmetric",
+          "synchron and asymmetric"
+        ],
+        "correct": ["asynchron and asymmetric"]
+      },
+      {
+        "question": "1W ROM address",
+        "options": [
+          "is a 7 bit code allowing for a maximum of 127 units on the line",
+          "is a 64 bit unique code written into the device at the factory"
+        ],
+        "correct": ["is a 64 bit unique code written into the device at the factory"]
+      },
+      {
+        "question": "1W communication",
+        "options": [
+          "always has 3 steps, reset, rom, ram - and none can be skipped",
+          "after addressing it no longer needs the reset and the rom command"
+        ],
+        "correct": ["always has 3 steps, reset, rom, ram - and none can be skipped"]
+      },
+      {
+        "question": "For 1W devices it is assumed",
+        "options": [
+          "that the Master has the more precise clock",
+          "that the Slave has the more precise clock"
+        ],
+        "correct": ["that the Master has the more precise clock"]
+      },
+      {
+        "question": "Search ROM needs",
+        "options": [
+          "64x2 read slots and 64 write slots",
+          "to go through all possible addresses with brute force"
+        ],
+        "correct": ["64x2 read slots and 64 write slots"]
+      },
+      {
+        "question": "!W data transmission happens in time slots",
+        "options": [
+          "always defined by the Master",
+          "defined by the sender which is either the Master or teh slave"
+        ],
+        "correct": ["always defined by the Master"]
+      },
+      {
+        "question": "Error checking in 1W is done",
+        "options": [
+          "by repeating the sent information with bits reversed",
+          "by sending a CRC - a remainder of a polynomial division"
+        ],
+        "correct": ["by sending a CRC - a remainder of a polynomial division"]
+      }
+    ]
+  },
+  {
+    "quiz": 8,
+    "questions": [
+      {
+        "question": "TWI (I2C) is a protocol that is:",
+        "options": [
+          "synchron and asymmetric",
+          "asynchron and asymmetric"
+        ],
+        "correct": ["synchron and asymmetric"]
+      },
+      {
+        "question": "SLA address",
+        "options": [
+          "is a 7 bit code allowing for a maximum of 127 units on the line",
+          "is a 64 bit unique code written into the device at the factory"
+        ],
+        "correct": ["is a 7 bit code allowing for a maximum of 127 units on the line"]
+      },
+      {
+        "question": "SLA data transmission can happen",
+        "options": [
+          "from Master to Slave if it is a SLA+W",
+          "only from Slave to Master",
+          "from Slave to Master if it is a SLA+R",
+          "only from Master to Slave"
+        ],
+        "correct": [
+          "from Master to Slave if it is a SLA+W",
+          "from Slave to Master if it is a SLA+R"
+        ]
+      },
+      {
+        "question": "If a TWI slave device needs to tell the Master an event happened",
+        "options": [
+          "it can initialize a transmission on the I2C bus",
+          "it needs to have a separate PIN to tell the Master to ask about it"
+        ],
+        "correct": ["it needs to have a separate PIN to tell the Master to ask about it"]
+      },
+      {
+        "question": "The ACK bit is",
+        "options": [
+          "always sent by the Master",
+          "always sent by the receiver, this can be the Master or the Slave"
+        ],
+        "correct": ["always sent by the receiver, this can be the Master or the Slave"]
+      },
+      {
+        "question": "A TWI device can",
+        "options": [
+          "initialize a transmission to the Master if an event happened",
+          "only tell the Master the transmission is too fast by stretching the clock"
+        ],
+        "correct": ["only tell the Master the transmission is too fast by stretching the clock"]
+      },
+      {
+        "question": "Error checking in TWI (I2C) is done",
+        "options": [
+          "by repeating the sent information with bits reversed",
+          "by sending an ACK bit after transmission received"
+        ],
+        "correct": ["by sending an ACK bit after transmission received"]
+      }
+    ]
+  },
+  {
+    "quiz": 9,
+    "questions": [
+      {
+        "question": "SPI is a protocol that is:",
+        "options": [
+          "synchron and asymmetric",
+          "asynchron and asymmetric"
+        ],
+        "correct": ["synchron and asymmetric"]
+      },
+      {
+        "question": "SPI address",
+        "options": [
+          "is a 7 bit code allowing for a maximum of 127 units on the line",
+          "is a 64 bit unique code written into the device at the factory",
+          "there is no SPI address"
+        ],
+        "correct": ["there is no SPI address"]
+      },
+      {
+        "question": "SPI data is stable",
+        "options": [
+          "when the CLK is LOW",
+          "when the CLK is HIGH",
+          "on one of the clock edges the other being the setup"
+        ],
+        "correct": ["on one of the clock edges the other being the setup"]
+      },
+      {
+        "question": "An SPI device can",
+        "options": [
+          "tell the Master the transmission is too fast by stretching the clock",
+          "initialize a transmission to the Master if an event happened",
+          "not initialize any communication on the SPI lines"
+        ],
+        "correct": ["not initialize any communication on the SPI lines"]
+      },
+      {
+        "question": "Error checking in SPI is done",
+        "options": [
+          "by repeating the sent information with bits reversed",
+          "there is no mandatoy error checking in SPI",
+          "by sending an ACK bit after transmission received"
+        ],
+        "correct": ["there is no mandatoy error checking in SPI"]
+      }
+    ]
+  },
+  {
+    "quiz": 10,
+    "questions": [
+      {
+        "question": "A usual speed that is used for sampling sound is:",
+        "options": [
+          "15 kSPS",
+          "44.1 kSPS"
+        ],
+        "correct": ["44.1 kSPS"]
+      },
+      {
+        "question": "analogWrite() on an Arduino UNO",
+        "options": [
+          "creates a PWM signal at that output",
+          "creates a true analog signal at that output"
+        ],
+        "correct": ["creates a PWM signal at that output"]
+      },
+      {
+        "question": "I am converting a 3.3V analog signal on 10 bits, LSB is",
+        "options": [
+          "3.3 V / 10",
+          "3.3 V / 1023"
+        ],
+        "correct": ["3.3 V / 1023"]
+      },
+      {
+        "question": "What resolution gives a good quality sound",
+        "options": [
+          "8 bits",
+          "16 bits"
+        ],
+        "correct": ["16 bits"]
+      },
+      {
+        "question": "Why is a MUX built in to an ADC",
+        "options": [
+          "So it would amplify the signal before converting",
+          "So it would seelct the signal - one from multiple inputs before converting"
+        ],
+        "correct": ["So it would seelct the signal - one from multiple inputs before converting"]
+      },
+      {
+        "question": "Studio good quality sample speed for sampling sound is:",
+        "options": [
+          "48 kSPS",
+          "192 kSPS"
+        ],
+        "correct": ["192 kSPS"]
+      },
+      {
+        "question": "analogWrite() on an Arduino DUE",
+        "options": [
+          "creates a PWM signal at that output",
+          "creates a true analog signal at that output"
+        ],
+        "correct": ["creates a true analog signal at that output"]
+      },
+      {
+        "question": "I am converting a 5V analog signal on 12 bits, LSB is",
+        "options": [
+          "3.3 V / 12",
+          "3.3 V / 4095"
+        ],
+        "correct": ["3.3 V / 4095"]
+      },
+      {
+        "question": "What resolution gives true color",
+        "options": [
+          "3x8 bits so 24 bits",
+          "8 bits"
+        ],
+        "correct": ["3x8 bits so 24 bits"]
+      },
+      {
+        "question": "Why is a PGA built in to an ADC",
+        "options": [
+          "So it would amplify the signal before converting",
+          "So it would seelct the signal - one from multiple inputs before converting"
+        ],
+        "correct": ["So it would amplify the signal before converting"]
+      }
+    ]
+  },
+  {
+    "quiz": 11,
+    "questions": [
+      {
+        "question": "A Brushless Motor:",
+        "options": [
+          "loses speed do to the friction that needs to be present at the contacts",
+          "does not create so much electromagnetic noise as a brushed motor",
+          "is easier to cool as the coils are in the stator",
+          "is easier to drive as it needs only a power voltage"
+        ],
+        "correct": [
+          "does not create so much electromagnetic noise as a brushed motor",
+          "is easier to cool as the coils are in the stator"
+        ]
+      },
+      {
+        "question": "A Brushed Motor:",
+        "options": [
+          "loses speed do to the friction that needs to be present at the contacts",
+          "does not create so much electromagnetic noise as a brushless motor",
+          "is easier to cool as the coils are in the stator",
+          "is easier to drive as it needs only a power voltage"
+        ],
+        "correct": [
+          "loses speed do to the friction that needs to be present at the contacts",
+          "is easier to drive as it needs only a power voltage"
+        ]
+      },
+      {
+        "question": "In a motor driving circuit the diode is present",
+        "options": [
+          "to short the voltage appearing when the motor is turned off",
+          "to rectify the voltage for the motor"
+        ],
+        "correct": ["to short the voltage appearing when the motor is turned off"]
+      },
+      {
+        "question": "For a servo motor the PWM duty cycle sets",
+        "options": [
+          "the speed at which it is rotating",
+          "the angle of the rotating shaft"
+        ],
+        "correct": ["the angle of the rotating shaft"]
+      },
+      {
+        "question": "The PWM frequency is set",
+        "options": [
+          "as high as possible",
+          "as high as the inertia of the driven system demands it to be"
+        ],
+        "correct": ["as high as the inertia of the driven system demands it to be"]
+      },
+      {
+        "question": "We do not power motors from GPIO directly because",
+        "options": [
+          "the GPIO pin cannot give high enough voltage",
+          "the GPIO pin cannot give high enough amps"
+        ],
+        "correct": ["the GPIO pin cannot give high enough amps"]
+      },
+      {
+        "question": "For a DC motor the PWM duty cycle sets",
+        "options": [
+          "the speed at which it is rotating",
+          "the angle of the rotating shaft"
+        ],
+        "correct": ["the speed at which it is rotating"]
+      },
+      {
+        "question": "In PID control our input is proportional (integral of, derivative of)",
+        "options": [
+          "the quantity we want to set",
+          "the error - the distance between the value we want to set and where it is now"
+        ],
+        "correct": ["the error - the distance between the value we want to set and where it is now"]
+      }
+    ]
+  },
+  {
+    "quiz": 12,
+    "questions": [
+      {
+        "question": "A Node MCU ADC:",
+        "options": [
+          "is limited to 0..1V but can be extended to 0...3.3V with resistors",
+          "has a single PIN and if we need to do multiplexing we need an external chip",
+          "has multiple PINs as inputs that a multiplexer can choose from"
+        ],
+        "correct": [
+          "is limited to 0..1V but can be extended to 0...3.3V with resistors",
+          "has a single PIN and if we need to do multiplexing we need an external chip"
+        ]
+      },
+      {
+        "question": "A Node MCU ADC (ESP8266)",
+        "options": [
+          "is less noisy than the Arduino ADC because the chip is faster",
+          "is more noisy than the Arduino ADC because the wifi is there",
+          "is the same resolution, 10 bits like the Arduino ADC",
+          "is higher resolution than the Arduino ADC"
+        ],
+        "correct": [
+          "is more noisy than the Arduino ADC because the wifi is there",
+          "is the same resolution, 10 bits like the Arduino ADC"
+        ]
+      },
+      {
+        "question": "Timing things on a Node MCU",
+        "options": [
+          "is done with delay() functions even if the delay is long",
+          "is better done with milis() to not block the main loop"
+        ],
+        "correct": ["is better done with milis() to not block the main loop"]
+      },
+      {
+        "question": "The Node MCU",
+        "options": [
+          "has two sleep modes, active and deep sleep",
+          "has four sleep modes, active, modem-sleep, light sleep and deep sleep",
+          "needs to be awaken by an outside signal once it goes into sleep mode",
+          "can wake itself up with a PIN change that resets the whole system"
+        ],
+        "correct": [
+          "has four sleep modes, active, modem-sleep, light sleep and deep sleep",
+          "can wake itself up with a PIN change that resets the whole system"
+        ]
+      },
+      {
+        "question": "MQTT",
+        "options": [
+          "requires nodes to stay online",
+          "can deal with unreliability even with a node falling off the network (last will and testament)",
+          "relies on persistent connections",
+          "does not even need the sender and receiver to be online at the same time"
+        ],
+        "correct": [
+          "can deal with unreliability even with a node falling off the network (last will and testament)",
+          "does not even need the sender and receiver to be online at the same time"
+        ]
+      },
+      {
+        "question": "For a Node MCU",
+        "options": [
+          "if is ok if the main thread is not doing anything for a long while",
+          "it is important the main loop does not stay idle for long and does not trigger watchdog reset"
+        ],
+        "correct": ["it is important the main loop does not stay idle for long and does not trigger watchdog reset"]
+      }
+    ]
+  }
+]
