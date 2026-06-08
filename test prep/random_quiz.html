@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>μC Quiz</title>
+    <style>
+        :root {
+            --bg: #0d0f1a;
+            --surface: #13162a;
+            --surface2: #1a1e35;
+            --border: #252840;
+            --text: #e2e8f0;
+            --muted: #6b7494;
+            --accent: #6366f1;
+            --accent2: #818cf8;
+            --green: #22c55e;
+            --red: #ef4444;
+            --green-bg: #052e16;
+            --red-bg: #2d0808;
+            --yellow: #f59e0b;
+            --r: 10px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 24px 16px;
+        }
+        .wrap { width: 100%; max-width: 700px; }
+
+        /* ── typography ── */
+        h1 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            text-align: center;
+            background: linear-gradient(135deg, var(--accent2), #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 4px;
+        }
+        .tagline { text-align: center; color: var(--muted); font-size: .88rem; margin-bottom: 32px; }
+
+        /* ── card ── */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: 22px;
+            margin-bottom: 14px;
+        }
+        .card-label {
+            font-size: .75rem;
+            text-transform: uppercase;
+            letter-spacing: .07em;
+            color: var(--muted);
+            margin-bottom: 10px;
+        }
+
+        /* ── segment ── */
+        .seg { display: flex; gap: 6px; }
+        .seg-btn {
+            flex: 1;
+            padding: 9px 14px;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: .88rem;
+            transition: all .15s;
+            text-align: center;
+        }
+        .seg-btn.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+        .seg-btn:hover:not(.on) { border-color: var(--accent2); color: var(--text); }
+
+        /* ── select ── */
+        select {
+            width: 100%;
+            padding: 10px 12px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            color: var(--text);
+            font-size: .92rem;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b7494' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 32px;
+        }
+        select:focus { outline: none; border-color: var(--accent); }
+
+        /* ── toggles ── */
+        .toggle-row { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 14px; }
+        .tog {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: .88rem;
+            color: var(--muted);
+            user-select: none;
+        }
+        .tog input[type=checkbox] { display: none; }
+        .tog-track {
+            width: 36px; height: 20px;
+            background: var(--border);
+            border-radius: 10px;
+            position: relative;
+            transition: background .2s;
+            flex-shrink: 0;
+        }
+        .tog-track::after {
+            content: '';
+            position: absolute;
+            width: 14px; height: 14px;
+            background: var(--muted);
+            border-radius: 50%;
+            top: 3px; left: 3px;
+            transition: all .2s;
+        }
+        .tog input:checked + .tog-track { background: var(--accent); }
+        .tog input:checked + .tog-track::after { left: 19px; background: #fff; }
+        .tog:hover { color: var(--text); }
+
+        /* ── primary btn ── */
+        .btn {
+            width: 100%;
+            padding: 13px;
+            background: var(--accent);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: .02em;
+            transition: background .15s, transform .1s;
+            margin-top: 4px;
+        }
+        .btn:hover { background: var(--accent2); }
+        .btn:active { transform: scale(.98); }
+        .btn.secondary {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+        }
+        .btn.secondary:hover { background: var(--accent); color: #fff; }
+        .btn.ghost {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        .btn.ghost:hover { border-color: var(--accent2); }
+        .btn:disabled { background: var(--border); color: var(--muted); cursor: default; transform: none; }
+
+        /* ── progress ── */
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .prog-text { font-size: .85rem; color: var(--muted); }
+        .score-chip {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 3px 11px;
+            font-size: .82rem;
+            color: var(--muted);
+        }
+        .score-chip .hi { color: var(--green); font-weight: 700; }
+        .prog-bar {
+            height: 5px;
+            background: var(--surface2);
+            border-radius: 3px;
+            margin-bottom: 22px;
+            overflow: hidden;
+        }
+        .prog-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            border-radius: 3px;
+            transition: width .4s ease;
+        }
+
+        /* ── question ── */
+        .q-meta { font-size: .78rem; color: var(--muted); margin-bottom: 8px; }
+        .q-text {
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.55;
+            margin-bottom: 6px;
+        }
+        .q-hint {
+            font-size: .8rem;
+            color: var(--accent2);
+            font-style: italic;
+            margin-bottom: 16px;
+        }
+
+        /* ── options ── */
+        .opts { display: flex; flex-direction: column; gap: 9px; margin-bottom: 18px; }
+        .opt {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 13px 15px;
+            background: var(--surface2);
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: .92rem;
+            line-height: 1.45;
+            transition: all .15s;
+            text-align: left;
+            color: var(--text);
+            width: 100%;
+        }
+        .opt:hover:not(:disabled) { border-color: var(--accent); background: #1c1f3a; }
+        .opt.sel { border-color: var(--accent); background: #1c1f3a; }
+        .opt.correct { border-color: var(--green); background: var(--green-bg); color: var(--green); }
+        .opt.wrong { border-color: var(--red); background: var(--red-bg); color: #fca5a5; }
+        .opt.missed { border-color: var(--yellow); background: #2d1f00; color: var(--yellow); }
+        .opt:disabled { cursor: default; }
+        .opt-key {
+            flex-shrink: 0;
+            font-size: .75rem;
+            font-weight: 700;
+            background: var(--border);
+            color: var(--muted);
+            border-radius: 5px;
+            padding: 2px 6px;
+            min-width: 22px;
+            text-align: center;
+            margin-top: 1px;
+        }
+        .opt.sel .opt-key { background: var(--accent); color: #fff; }
+        .opt.correct .opt-key { background: var(--green); color: #fff; }
+        .opt.wrong .opt-key { background: var(--red); color: #fff; }
+        .opt.missed .opt-key { background: var(--yellow); color: #000; }
+
+        /* ── feedback ── */
+        .feedback {
+            padding: 11px 15px;
+            border-radius: 8px;
+            font-size: .88rem;
+            font-weight: 500;
+            margin-bottom: 16px;
+            display: none;
+        }
+        .feedback.show { display: block; }
+        .feedback.ok { background: var(--green-bg); border: 1px solid var(--green); color: var(--green); }
+        .feedback.bad { background: var(--red-bg); border: 1px solid var(--red); color: #fca5a5; }
+
+        /* ── action row ── */
+        .actions { display: flex; gap: 10px; }
+        .actions .btn { margin-top: 0; }
+
+        /* ── results ── */
+        .result-hero { text-align: center; padding: 28px 20px; }
+        .result-pct {
+            font-size: 5rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+        .result-pct.great { background: linear-gradient(135deg, var(--green), #86efac); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .result-pct.ok { background: linear-gradient(135deg, var(--yellow), #fde68a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .result-pct.bad { background: linear-gradient(135deg, var(--red), #fca5a5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .result-sub { color: var(--muted); margin-top: 6px; font-size: .9rem; }
+        .result-sub strong { color: var(--text); }
+
+        .review-item {
+            padding: 13px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: .87rem;
+            margin-bottom: 9px;
+        }
+        .review-item.ok { border-color: #166534; background: var(--green-bg); }
+        .review-item.bad { border-color: #7f1d1d; background: var(--red-bg); }
+        .review-q { font-weight: 600; margin-bottom: 5px; line-height: 1.4; }
+        .review-detail { color: var(--muted); font-size: .82rem; line-height: 1.5; }
+        .review-detail .correct-ans { color: var(--green); }
+        .review-detail .wrong-ans { color: var(--red); text-decoration: line-through; }
+        .result-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+
+        /* ── keyboard hint ── */
+        .kbd-hints {
+            text-align: center;
+            color: var(--muted);
+            font-size: .75rem;
+            margin-top: 10px;
+        }
+        .kbd-hints kbd {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 1px 5px;
+            font-size: .72rem;
+            font-family: monospace;
+        }
+
+        /* ── stat pills ── */
+        .stats-row { display: flex; gap: 10px; justify-content: center; margin: 16px 0; flex-wrap: wrap; }
+        .stat-pill {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: .82rem;
+            font-weight: 600;
+        }
+        .stat-pill.g { background: var(--green-bg); border: 1px solid var(--green); color: var(--green); }
+        .stat-pill.r { background: var(--red-bg); border: 1px solid var(--red); color: #fca5a5; }
+        .stat-pill.t { background: var(--surface2); border: 1px solid var(--border); color: var(--muted); }
+
+        /* ── raw mode study card ── */
+        .study-info {
+            font-size: .8rem;
+            color: var(--muted);
+            text-align: center;
+            margin-bottom: 14px;
+            padding: 8px;
+            background: var(--surface2);
+            border-radius: 7px;
+            border: 1px solid var(--border);
+        }
+
+        /* ── divider ── */
+        .divider { height: 1px; background: var(--border); margin: 14px 0; }
+
+        /* ── quiz chips ── */
+        .chip-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+        .qchip {
+            padding: 8px 12px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: .82rem;
+            font-weight: 600;
+            transition: all .15s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            min-width: 62px;
+        }
+        .qchip:hover:not(.active) { border-color: var(--accent2); color: var(--text); }
+        .qchip.active { border-color: var(--accent); background: #1c1f3a; color: var(--text); }
+        .qchip.done-great { border-color: var(--green); }
+        .qchip.done-great.active { background: #072015; }
+        .qchip.done-ok { border-color: var(--yellow); }
+        .qchip.done-ok.active { background: #1e1500; }
+        .qchip.done-bad { border-color: var(--red); }
+        .qchip.done-bad.active { background: #1e0808; }
+        .qchip-label { font-size: .78rem; font-weight: 700; }
+        .qchip-score { font-size: .68rem; color: var(--muted); }
+        .qchip.done-great .qchip-score { color: var(--green); }
+        .qchip.done-ok .qchip-score { color: var(--yellow); }
+        .qchip.done-bad .qchip-score { color: #fca5a5; }
+        .qchip-badge { font-size: .7rem; }
+        .chip-reset {
+            font-size: .7rem;
+            color: var(--muted);
+            line-height: 1;
+            padding: 1px 3px;
+            border-radius: 3px;
+            margin-top: 1px;
+        }
+        .chip-reset:hover { color: var(--red); background: var(--red-bg); }
+    </style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+const QUIZZES = [
+  {
+    "quiz": 2,
+    "questions": [
+      {
+        "question": "For real time operation it is necessary to",
+        "options": [
+          "have a processor running as fast as possible at a high clock",
+          "to have control over what tasks are running and to have short operations (RISC architecture)"
+        ],
+        "correct": ["to have control over what tasks are running and to have short operations (RISC architecture)"]
+      },
+      {
+        "question": "The microcontroller stores the variables here:",
+        "options": [
+          "SRAM, this is fast but volatile (is lost when the power is turned off)",
+          "Flash, it remains there even when the power is turned off"
+        ],
+        "correct": ["SRAM, this is fast but volatile (is lost when the power is turned off)"]
+      },
+      {
+        "question": "A microcontroller controlling the airbag deployment in a car",
+        "options": [
+          "should have a short developement cycle with a fast mockup for the client",
+          "should be operating in real time with no errors in operation"
+        ],
+        "correct": ["should be operating in real time with no errors in operation"]
+      },
+      {
+        "question": "If I use a bootloader",
+        "options": [
+          "I lose a bit of flash space from the available program memory",
+          "it will start the program written on the microcontroller every time the board is turned on"
+        ],
+        "correct": ["I lose a bit of flash space from the available program memory"]
+      },
+      {
+        "question": "GPIO means:",
+        "options": [
+          "General Purpose Input and Output",
+          "Generic Pin for In and Out operations"
+        ],
+        "correct": ["General Purpose Input and Output"]
+      },
+      {
+        "question": "The Arduino concept is to",
+        "options": [
+          "have no peripheries and only connect what is needed as extra modularly with shields",
+          "have all the peripherals the student might need ready and connected on the PCB"
+        ],
+        "correct": ["have no peripheries and only connect what is needed as extra modularly with shields"]
+      },
+      {
+        "question": "The microcontroller stores the program here:",
+        "options": [
+          "SRAM, this is fast but volatile (is lost when the power is turned off)",
+          "Flash, it remains there even when the power is turned off"
+        ],
+        "correct": ["Flash, it remains there even when the power is turned off"]
+      },
+      {
+        "question": "General Purpose Computers",
+        "options": [
+          "were developed far after the microcontrollers were already in embedded systems everywhere",
+          "were developed about the same time as the first microcontrollers"
+        ],
+        "correct": ["were developed about the same time as the first microcontrollers"]
+      },
+      {
+        "question": "Far more of these are manufactured each year",
+        "options": [
+          "Microcontrollers",
+          "General Purpose Computers"
+        ],
+        "correct": ["Microcontrollers"]
+      },
+      {
+        "question": "Predictable latency means",
+        "options": [
+          "we know the delay accumulated already during the execution of the program",
+          "we know the max clock cycles before something can get executed"
+        ],
+        "correct": ["we know the max clock cycles before something can get executed"]
+      }
+    ]
+  },
+  {
+    "quiz": 3,
+    "questions": [
+      {
+        "question": "Instead of pinMode(13,INPUT); I could have written",
+        "options": [
+          "pinMode(13,1);",
+          "pinMode(13,0);"
+        ],
+        "correct": ["pinMode(13,0);"]
+      },
+      {
+        "question": "The PORTB register:",
+        "options": [
+          "sets the direction of the individual PINs",
+          "sets the value presented on the individual PINs"
+        ],
+        "correct": ["sets the value presented on the individual PINs"]
+      },
+      {
+        "question": "When I connect a PIN through a switch to GND",
+        "options": [
+          "I can set the PIN to INPUT it will read coirrectly",
+          "I have to set the PIN to INPUT_PULLUP to read coirrectly",
+          "unless the switch is pushed there is no value presented to the PIN",
+          "when I press it it is 0 when I do no press it is one"
+        ],
+        "correct": [
+          "I have to set the PIN to INPUT_PULLUP to read coirrectly",
+          "when I press it it is 0 when I do no press it is one"
+        ]
+      },
+      {
+        "question": "The inputs that Arduino UNO can use as an extrenal interrupt",
+        "options": [
+          "Digital Pins 2 and 3",
+          "All digital pins"
+        ],
+        "correct": ["Digital Pins 2 and 3"]
+      },
+      {
+        "question": "attachInterrupt(pin, ISR, mode), the ISR is:",
+        "options": [
+          "the name of the function it should jump to",
+          "the interrupt vector that called this function"
+        ],
+        "correct": ["the name of the function it should jump to"]
+      },
+      {
+        "question": "Instead of pinMode(13,OUTPUT); I could have written",
+        "options": [
+          "pinMode(13,1);",
+          "pinMode(13,0);"
+        ],
+        "correct": ["pinMode(13,1);"]
+      },
+      {
+        "question": "The DDR register:",
+        "options": [
+          "sets the direction of the individual PINs",
+          "sets the value presented on the individual PINs"
+        ],
+        "correct": ["sets the direction of the individual PINs"]
+      },
+      {
+        "question": "The inputs that Arduino UNO can sense on an extrenal interrupt",
+        "options": [
+          "HIGH, LOW, RISING, FALLING",
+          "CHANGE, LOW, RISING, FALLING"
+        ],
+        "correct": ["CHANGE, LOW, RISING, FALLING"]
+      },
+      {
+        "question": "ISR(vector): the vector means:",
+        "options": [
+          "the name of the function it should jump to",
+          "the interrupt vector that called this function"
+        ],
+        "correct": ["the interrupt vector that called this function"]
+      }
+    ]
+  },
+  {
+    "quiz": 4,
+    "questions": [
+      {
+        "question": "I want to write 2 to the common anode LED 7 segment",
+        "options": [
+          "abcdefg. = 0b00100101",
+          "abcdefg. = 0b11011010"
+        ],
+        "correct": ["abcdefg. = 0b00100101"]
+      },
+      {
+        "question": "I want an event every 60 ms (16MHz, prescaler 8):",
+        "options": [
+          "number of steps is = 16,000,000/8/(1000/60)",
+          "number of steps is = 16,000,000/8/60"
+        ],
+        "correct": ["number of steps is = 16,000,000/8/(1000/60)"]
+      },
+      {
+        "question": "When an overflow event happens",
+        "options": [
+          "the flag is always set",
+          "the interrupt always happens"
+        ],
+        "correct": ["the flag is always set"]
+      },
+      {
+        "question": "I want the overflow to happen every 3035 steps",
+        "options": [
+          "TCNT1= 65535 - 62500;",
+          "TCNT1= 62500;"
+        ],
+        "correct": ["TCNT1= 62500;"]
+      },
+      {
+        "question": "The three events that can happen in a timer:",
+        "options": [
+          "Overflow, Reached 0, Reached TOP",
+          "Overflow, Output Compare A, Output Compare B"
+        ],
+        "correct": ["Overflow, Output Compare A, Output Compare B"]
+      },
+      {
+        "question": "I want to write 2 to the common cathode LED 7 segment",
+        "options": [
+          "abcdefg. = 0b00100101",
+          "abcdefg. = 0b11011010"
+        ],
+        "correct": ["abcdefg. = 0b11011010"]
+      },
+      {
+        "question": "An event to happen 6000 times/s (16MHz, prescaler 8):",
+        "options": [
+          "number of steps is = 16,000,000/8/(1000/60)",
+          "number of steps is = 16,000,000/8/6000"
+        ],
+        "correct": ["number of steps is = 16,000,000/8/6000"]
+      },
+      {
+        "question": "When an output compare event happens",
+        "options": [
+          "the flag is always set",
+          "the interrupt always happens"
+        ],
+        "correct": ["the flag is always set"]
+      },
+      {
+        "question": "I want the overflow to happen every 62500 steps",
+        "options": [
+          "TCNT1= 65535 - 62500;",
+          "TCNT1= 62500;"
+        ],
+        "correct": ["TCNT1= 65535 - 62500;"]
+      },
+      {
+        "question": "If an interrupt is called while inside an ISR() already",
+        "options": [
+          "the other interrupt will execute after this one is done",
+          "the other interrupt will be lost it will not get called"
+        ],
+        "correct": ["the other interrupt will be lost it will not get called"]
+      }
+    ]
+  },
+  {
+    "quiz": 5,
+    "questions": [
+      {
+        "question": "Fast PWM mode counting",
+        "options": [
+          "Fast PWM counts from 0 to OCR then resets",
+          "Fast PWM counts from 0 to OVF like Normal mode"
+        ],
+        "correct": ["Fast PWM counts from 0 to OVF like Normal mode"]
+      },
+      {
+        "question": "I want to always count to max but have two iterrupts at a two different values:",
+        "options": [
+          "this is possible as there are two different OCR interrupts",
+          "this is not possible there is only one OCR interrupt"
+        ],
+        "correct": ["this is possible as there are two different OCR interrupts"]
+      },
+      {
+        "question": "When COM0A0..1 bit are set to clear",
+        "options": [
+          "OCR event clears, TOV event sets",
+          "OCR event sets, TOV event clears"
+        ],
+        "correct": ["OCR event clears, TOV event sets"]
+      },
+      {
+        "question": "Timer1 Capture event",
+        "options": [
+          "happens repeatedly when the timer reaches some value",
+          "happens when some output pins show a change"
+        ],
+        "correct": ["happens when some output pins show a change"]
+      },
+      {
+        "question": "CTC mode counting:",
+        "options": [
+          "CTC counts from 0 to OCR then resets",
+          "CTC counts from OCR to OVF"
+        ],
+        "correct": ["CTC counts from 0 to OCR then resets"]
+      },
+      {
+        "question": "I want to always count to max but have an iterrupt at a different value:",
+        "options": [
+          "this is possible with the OCR interrupt",
+          "this is not possible OVF is at the max"
+        ],
+        "correct": ["this is possible with the OCR interrupt"]
+      },
+      {
+        "question": "COM0A0..1 bit set",
+        "options": [
+          "what happens with the OCR output at compare (set, clear or toggle)",
+          "which PIN is the OCR pin"
+        ],
+        "correct": ["what happens with the OCR output at compare (set, clear or toggle)"]
+      },
+      {
+        "question": "FOC0A, FOC0B bits",
+        "options": [
+          "force an OCR event from software",
+          "are flags set when OCR happens"
+        ],
+        "correct": ["force an OCR event from software"]
+      },
+      {
+        "question": "Nobel Prize in Physics in 2014 was given for",
+        "options": [
+          "green LEDs",
+          "red LEDs",
+          "blue LEDs"
+        ],
+        "correct": ["blue LEDs"]
+      }
+    ]
+  },
+  {
+    "quiz": 6,
+    "questions": [
+      {
+        "question": "IR light:",
+        "options": [
+          "has shorter wavelength compared to visible light",
+          "has lower frequency compared to visible light",
+          "has longer wavelength compared to visible light",
+          "has higher frequency compared to visible light"
+        ],
+        "correct": [
+          "has longer wavelength compared to visible light",
+          "has lower frequency compared to visible light"
+        ]
+      },
+      {
+        "question": "Modulated IR light: the signal that modulates",
+        "options": [
+          "changes the amplitude of the carrier (to 0 or 1)",
+          "changes the frequency of the carrier like in FM radio"
+        ],
+        "correct": ["changes the amplitude of the carrier (to 0 or 1)"]
+      },
+      {
+        "question": "RC5 protocol",
+        "options": [
+          "has the same length of pulses for 0 and 1",
+          "has much longer dark pulse for 1 compared to 0"
+        ],
+        "correct": ["has the same length of pulses for 0 and 1"]
+      },
+      {
+        "question": "UART is",
+        "options": [
+          "synchron and asymmetric",
+          "asynchron and symmetric"
+        ],
+        "correct": ["asynchron and symmetric"]
+      },
+      {
+        "question": "The three errors in UART are:",
+        "options": [
+          "RXC, TXC and UDRE",
+          "DOR, FE, PE"
+        ],
+        "correct": ["DOR, FE, PE"]
+      },
+      {
+        "question": "Modulated signals:",
+        "options": [
+          "have a fast carrier component that is modulated by the slow signal component",
+          "have a slow carrier component that is modulated by the fast signal component"
+        ],
+        "correct": ["have a fast carrier component that is modulated by the slow signal component"]
+      },
+      {
+        "question": "IR communication",
+        "options": [
+          "encodes the 0s and 1s in the frequency of the IR light",
+          "encodes the 0s and 1s in the timing of the light and dark pulses"
+        ],
+        "correct": ["encodes the 0s and 1s in the timing of the light and dark pulses"]
+      },
+      {
+        "question": "The three events in UART are:",
+        "options": [
+          "RXC, TXC and UDRE",
+          "DOR, FE, PE"
+        ],
+        "correct": ["RXC, TXC and UDRE"]
+      }
+    ]
+  },
+  {
+    "quiz": 7,
+    "questions": [
+      {
+        "question": "1W is a protocol that is:",
+        "options": [
+          "asynchron and symmetric",
+          "asynchron and asymmetric",
+          "synchron and asymmetric"
+        ],
+        "correct": ["asynchron and asymmetric"]
+      },
+      {
+        "question": "1W ROM address",
+        "options": [
+          "is a 7 bit code allowing for a maximum of 127 units on the line",
+          "is a 64 bit unique code written into the device at the factory"
+        ],
+        "correct": ["is a 64 bit unique code written into the device at the factory"]
+      },
+      {
+        "question": "1W communication",
+        "options": [
+          "always has 3 steps, reset, rom, ram - and none can be skipped",
+          "after addressing it no longer needs the reset and the rom command"
+        ],
+        "correct": ["always has 3 steps, reset, rom, ram - and none can be skipped"]
+      },
+      {
+        "question": "For 1W devices it is assumed",
+        "options": [
+          "that the Master has the more precise clock",
+          "that the Slave has the more precise clock"
+        ],
+        "correct": ["that the Master has the more precise clock"]
+      },
+      {
+        "question": "Search ROM needs",
+        "options": [
+          "64x2 read slots and 64 write slots",
+          "to go through all possible addresses with brute force"
+        ],
+        "correct": ["64x2 read slots and 64 write slots"]
+      },
+      {
+        "question": "!W data transmission happens in time slots",
+        "options": [
+          "always defined by the Master",
+          "defined by the sender which is either the Master or teh slave"
+        ],
+        "correct": ["always defined by the Master"]
+      },
+      {
+        "question": "Error checking in 1W is done",
+        "options": [
+          "by repeating the sent information with bits reversed",
+          "by sending a CRC - a remainder of a polynomial division"
+        ],
+        "correct": ["by sending a CRC - a remainder of a polynomial division"]
+      }
+    ]
+  },
+  {
+    "quiz": 8,
+    "questions": [
+      {
+        "question": "TWI (I2C) is a protocol that is:",
+        "options": [
+          "synchron and asymmetric",
+          "asynchron and asymmetric"
+        ],
+        "correct": ["synchron and asymmetric"]
+      },
+      {
+        "question": "SLA address",
+        "options": [
+          "is a 7 bit code allowing for a maximum of 127 units on the line",
+          "is a 64 bit unique code written into the device at the factory"
+        ],
+        "correct": ["is a 7 bit code allowing for a maximum of 127 units on the line"]
+      },
+      {
+        "question": "SLA data transmission can happen",
+        "options": [
+          "from Master to Slave if it is a SLA+W",
+          "only from Slave to Master",
+          "from Slave to Master if it is a SLA+R",
+          "only from Master to Slave"
+        ],
+        "correct": [
+          "from Master to Slave if it is a SLA+W",
+          "from Slave to Master if it is a SLA+R"
+        ]
+      },
+      {
+        "question": "If a TWI slave device needs to tell the Master an event happened",
+        "options": [
+          "it can initialize a transmission on the I2C bus",
+          "it needs to have a separate PIN to tell the Master to ask about it"
+        ],
+        "correct": ["it needs to have a separate PIN to tell the Master to ask about it"]
+      },
+      {
+        "question": "The ACK bit is",
+        "options": [
+          "always sent by the Master",
+          "always sent by the receiver, this can be the Master or the Slave"
+        ],
+        "correct": ["always sent by the receiver, this can be the Master or the Slave"]
+      },
+      {
+        "question": "A TWI device can",
+        "options": [
+          "initialize a transmission to the Master if an event happened",
+          "only tell the Master the transmission is too fast by stretching the clock"
+        ],
+        "correct": ["only tell the Master the transmission is too fast by stretching the clock"]
+      },
+      {
+        "question": "Error checking in TWI (I2C) is done",
+        "options": [
+          "by repeating the sent information with bits reversed",
+          "by sending an ACK bit after transmission received"
+        ],
+        "correct": ["by sending an ACK bit after transmission received"]
+      }
+    ]
+  },
+  {
+    "quiz": 9,
+    "questions": [
+      {
+        "question": "SPI is a protocol that is:",
+        "options": [
+          "synchron and asymmetric",
+          "asynchron and asymmetric"
+        ],
+        "correct": ["synchron and asymmetric"]
+      },
+      {
+        "question": "SPI address",
+        "options": [
+          "is a 7 bit code allowing for a maximum of 127 units on the line",
+          "is a 64 bit unique code written into the device at the factory",
+          "there is no SPI address"
+        ],
+        "correct": ["there is no SPI address"]
+      },
+      {
+        "question": "SPI data is stable",
+        "options": [
+          "when the CLK is LOW",
+          "when the CLK is HIGH",
+          "on one of the clock edges the other being the setup"
+        ],
+        "correct": ["on one of the clock edges the other being the setup"]
+      },
+      {
+        "question": "An SPI device can",
+        "options": [
+          "tell the Master the transmission is too fast by stretching the clock",
+          "initialize a transmission to the Master if an event happened",
+          "not initialize any communication on the SPI lines"
+        ],
+        "correct": ["not initialize any communication on the SPI lines"]
+      },
+      {
+        "question": "Error checking in SPI is done",
+        "options": [
+          "by repeating the sent information with bits reversed",
+          "there is no mandatoy error checking in SPI",
+          "by sending an ACK bit after transmission received"
+        ],
+        "correct": ["there is no mandatoy error checking in SPI"]
+      }
+    ]
+  },
+  {
+    "quiz": 10,
+    "questions": [
+      {
+        "question": "A usual speed that is used for sampling sound is:",
+        "options": [
+          "15 kSPS",
+          "44.1 kSPS"
+        ],
+        "correct": ["44.1 kSPS"]
+      },
+      {
+        "question": "analogWrite() on an Arduino UNO",
+        "options": [
+          "creates a PWM signal at that output",
+          "creates a true analog signal at that output"
+        ],
+        "correct": ["creates a PWM signal at that output"]
+      },
+      {
+        "question": "I am converting a 3.3V analog signal on 10 bits, LSB is",
+        "options": [
+          "3.3 V / 10",
+          "3.3 V / 1023"
+        ],
+        "correct": ["3.3 V / 1023"]
+      },
+      {
+        "question": "What resolution gives a good quality sound",
+        "options": [
+          "8 bits",
+          "16 bits"
+        ],
+        "correct": ["16 bits"]
+      },
+      {
+        "question": "Why is a MUX built in to an ADC",
+        "options": [
+          "So it would amplify the signal before converting",
+          "So it would seelct the signal - one from multiple inputs before converting"
+        ],
+        "correct": ["So it would seelct the signal - one from multiple inputs before converting"]
+      },
+      {
+        "question": "Studio good quality sample speed for sampling sound is:",
+        "options": [
+          "48 kSPS",
+          "192 kSPS"
+        ],
+        "correct": ["192 kSPS"]
+      },
+      {
+        "question": "analogWrite() on an Arduino DUE",
+        "options": [
+          "creates a PWM signal at that output",
+          "creates a true analog signal at that output"
+        ],
+        "correct": ["creates a true analog signal at that output"]
+      },
+      {
+        "question": "I am converting a 5V analog signal on 12 bits, LSB is",
+        "options": [
+          "3.3 V / 12",
+          "3.3 V / 4095"
+        ],
+        "correct": ["3.3 V / 4095"]
+      },
+      {
+        "question": "What resolution gives true color",
+        "options": [
+          "3x8 bits so 24 bits",
+          "8 bits"
+        ],
+        "correct": ["3x8 bits so 24 bits"]
+      },
+      {
+        "question": "Why is a PGA built in to an ADC",
+        "options": [
+          "So it would amplify the signal before converting",
+          "So it would seelct the signal - one from multiple inputs before converting"
+        ],
+        "correct": ["So it would amplify the signal before converting"]
+      }
+    ]
+  },
+  {
+    "quiz": 11,
+    "questions": [
+      {
+        "question": "A Brushless Motor:",
+        "options": [
+          "loses speed do to the friction that needs to be present at the contacts",
+          "does not create so much electromagnetic noise as a brushed motor",
+          "is easier to cool as the coils are in the stator",
+          "is easier to drive as it needs only a power voltage"
+        ],
+        "correct": [
+          "does not create so much electromagnetic noise as a brushed motor",
+          "is easier to cool as the coils are in the stator"
+        ]
+      },
+      {
+        "question": "A Brushed Motor:",
+        "options": [
+          "loses speed do to the friction that needs to be present at the contacts",
+          "does not create so much electromagnetic noise as a brushless motor",
+          "is easier to cool as the coils are in the stator",
+          "is easier to drive as it needs only a power voltage"
+        ],
+        "correct": [
+          "loses speed do to the friction that needs to be present at the contacts",
+          "is easier to drive as it needs only a power voltage"
+        ]
+      },
+      {
+        "question": "In a motor driving circuit the diode is present",
+        "options": [
+          "to short the voltage appearing when the motor is turned off",
+          "to rectify the voltage for the motor"
+        ],
+        "correct": ["to short the voltage appearing when the motor is turned off"]
+      },
+      {
+        "question": "For a servo motor the PWM duty cycle sets",
+        "options": [
+          "the speed at which it is rotating",
+          "the angle of the rotating shaft"
+        ],
+        "correct": ["the angle of the rotating shaft"]
+      },
+      {
+        "question": "The PWM frequency is set",
+        "options": [
+          "as high as possible",
+          "as high as the inertia of the driven system demands it to be"
+        ],
+        "correct": ["as high as the inertia of the driven system demands it to be"]
+      },
+      {
+        "question": "We do not power motors from GPIO directly because",
+        "options": [
+          "the GPIO pin cannot give high enough voltage",
+          "the GPIO pin cannot give high enough amps"
+        ],
+        "correct": ["the GPIO pin cannot give high enough amps"]
+      },
+      {
+        "question": "For a DC motor the PWM duty cycle sets",
+        "options": [
+          "the speed at which it is rotating",
+          "the angle of the rotating shaft"
+        ],
+        "correct": ["the speed at which it is rotating"]
+      },
+      {
+        "question": "In PID control our input is proportional (integral of, derivative of)",
+        "options": [
+          "the quantity we want to set",
+          "the error - the distance between the value we want to set and where it is now"
+        ],
+        "correct": ["the error - the distance between the value we want to set and where it is now"]
+      }
+    ]
+  },
+  {
+    "quiz": 12,
+    "questions": [
+      {
+        "question": "A Node MCU ADC:",
+        "options": [
+          "is limited to 0..1V but can be extended to 0...3.3V with resistors",
+          "has a single PIN and if we need to do multiplexing we need an external chip",
+          "has multiple PINs as inputs that a multiplexer can choose from"
+        ],
+        "correct": [
+          "is limited to 0..1V but can be extended to 0...3.3V with resistors",
+          "has a single PIN and if we need to do multiplexing we need an external chip"
+        ]
+      },
+      {
+        "question": "A Node MCU ADC (ESP8266)",
+        "options": [
+          "is less noisy than the Arduino ADC because the chip is faster",
+          "is more noisy than the Arduino ADC because the wifi is there",
+          "is the same resolution, 10 bits like the Arduino ADC",
+          "is higher resolution than the Arduino ADC"
+        ],
+        "correct": [
+          "is more noisy than the Arduino ADC because the wifi is there",
+          "is the same resolution, 10 bits like the Arduino ADC"
+        ]
+      },
+      {
+        "question": "Timing things on a Node MCU",
+        "options": [
+          "is done with delay() functions even if the delay is long",
+          "is better done with milis() to not block the main loop"
+        ],
+        "correct": ["is better done with milis() to not block the main loop"]
+      },
+      {
+        "question": "The Node MCU",
+        "options": [
+          "has two sleep modes, active and deep sleep",
+          "has four sleep modes, active, modem-sleep, light sleep and deep sleep",
+          "needs to be awaken by an outside signal once it goes into sleep mode",
+          "can wake itself up with a PIN change that resets the whole system"
+        ],
+        "correct": [
+          "has four sleep modes, active, modem-sleep, light sleep and deep sleep",
+          "can wake itself up with a PIN change that resets the whole system"
+        ]
+      },
+      {
+        "question": "MQTT",
+        "options": [
+          "requires nodes to stay online",
+          "can deal with unreliability even with a node falling off the network (last will and testament)",
+          "relies on persistent connections",
+          "does not even need the sender and receiver to be online at the same time"
+        ],
+        "correct": [
+          "can deal with unreliability even with a node falling off the network (last will and testament)",
+          "does not even need the sender and receiver to be online at the same time"
+        ]
+      },
+      {
+        "question": "For a Node MCU",
+        "options": [
+          "if is ok if the main thread is not doing anything for a long while",
+          "it is important the main loop does not stay idle for long and does not trigger watchdog reset"
+        ],
+        "correct": ["it is important the main loop does not stay idle for long and does not trigger watchdog reset"]
+      }
+    ]
+  }
+]
+;
+
+let allQuestions = [];
+QUIZZES.forEach(qGroup => {
+    qGroup.questions.forEach(q => {
+        allQuestions.push({
+            question: q.question,
+            options: q.options,
+            correct: q.correct,
+            originalQuiz: qGroup.quiz
+        });
+    });
+});
+
+// Shuffle algorithm (Fisher-Yates)
+for (let i = allQuestions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [allQuestions[i], allQuestions[j]] = [allQuestions[j], allQuestions[i]];
+}
+
+const randomQuiz = {
+    quiz: 'Random Mix',
+    questions: allQuestions
+};
+
+let currentQuiz = null;
+let currentQIndex = 0;
+let score = 0;
+let userAnswers = [];
+
+const app = document.getElementById('app');
+
+function renderMenu() {
+    app.innerHTML = `
+        <h1>Randomized Quiz</h1>
+        <div class="tagline">All questions from all quizzes in a random order</div>
+        <div class="card" style="text-align: center;">
+            <div class="card-label">Ready?</div>
+            <p style="margin-bottom: 20px; font-size: 0.95rem; color: var(--muted);">This quiz will ask you ${allQuestions.length} questions.</p>
+            <button class="btn" id="start-btn">Start Random Quiz</button>
+        </div>
+    `;
+    const startBtn = document.getElementById('start-btn');
+    startBtn.addEventListener('click', () => {
+        startQuiz(randomQuiz);
+    });
+}
+
+function startQuiz(quiz) {
+    currentQuiz = quiz;
+    currentQIndex = 0;
+    score = 0;
+    userAnswers = [];
+    renderQuestion();
+}
+
+function renderQuestion() {
+    if (currentQIndex >= currentQuiz.questions.length) {
+        renderResults();
+        return;
+    }
+
+    const q = currentQuiz.questions[currentQIndex];
+    const total = currentQuiz.questions.length;
+    const progressPct = (currentQIndex / total) * 100;
+    
+    const isMulti = q.correct.length > 1;
+    let selected = new Set();
+    let submitted = false;
+
+    app.innerHTML = `
+        <div class="progress-header">
+            <div class="prog-text">Question ${currentQIndex + 1} of ${total}</div>
+            <div class="score-chip">Score: <span class="hi">${score}</span></div>
+        </div>
+        <div class="prog-bar">
+            <div class="prog-fill" style="width: ${progressPct}%"></div>
+        </div>
+        <div class="card">
+            <div class="q-meta">From Quiz #${q.originalQuiz}</div>
+            <div class="q-text">${q.question}</div>
+            ${isMulti ? `<div class="q-hint">Select all that apply (${q.correct.length} correct options)</div>` : ''}
+            <div class="opts" id="opts">
+                ${q.options.map((opt, i) => `
+                    <button class="opt" data-idx="${i}">
+                        <div class="opt-key">${String.fromCharCode(65 + i)}</div>
+                        ${opt}
+                    </button>
+                `).join('')}
+            </div>
+            <div class="feedback" id="feedback"></div>
+        </div>
+        <div class="actions">
+            <button class="btn" id="submit-btn" disabled>${isMulti ? 'Submit' : 'Next'}</button>
+        </div>
+    `;
+
+    const optBtns = document.querySelectorAll('.opt');
+    const submitBtn = document.getElementById('submit-btn');
+    const feedback = document.getElementById('feedback');
+
+    optBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (submitted) return;
+            const idx = parseInt(btn.dataset.idx);
+            
+            if (isMulti) {
+                if (selected.has(idx)) {
+                    selected.delete(idx);
+                    btn.classList.remove('sel');
+                } else {
+                    selected.add(idx);
+                    btn.classList.add('sel');
+                }
+                submitBtn.disabled = selected.size === 0;
+            } else {
+                selected.clear();
+                selected.add(idx);
+                optBtns.forEach(b => b.classList.remove('sel'));
+                btn.classList.add('sel');
+                submitBtn.disabled = false;
+            }
+        });
+    });
+
+    submitBtn.addEventListener('click', () => {
+        if (!submitted) {
+            handleSubmit();
+        } else {
+            currentQIndex++;
+            renderQuestion();
+        }
+    });
+
+    function handleSubmit() {
+        submitted = true;
+        
+        let isCorrect = false;
+        const selectedOpts = Array.from(selected).map(idx => q.options[idx]);
+        
+        if (selectedOpts.length === q.correct.length && selectedOpts.every(val => q.correct.includes(val))) {
+            isCorrect = true;
+            score++;
+        }
+
+        userAnswers.push({
+            q: q,
+            selected: selectedOpts,
+            isCorrect: isCorrect
+        });
+
+        optBtns.forEach(btn => {
+            const idx = parseInt(btn.dataset.idx);
+            const optText = q.options[idx];
+            const isSel = selected.has(idx);
+            const isActualCorrect = q.correct.includes(optText);
+
+            if (isActualCorrect) {
+                btn.classList.add('correct');
+            } else if (isSel && !isActualCorrect) {
+                btn.classList.add('wrong');
+            }
+        });
+
+        feedback.className = `feedback show ${isCorrect ? 'ok' : 'bad'}`;
+        feedback.innerText = isCorrect ? 'Correct!' : 'Incorrect.';
+        
+        submitBtn.innerText = 'Next Question';
+        submitBtn.disabled = false;
+    }
+}
+
+function renderResults() {
+    const total = currentQuiz.questions.length;
+    const pct = Math.round((score / total) * 100);
+    const pctClass = pct >= 80 ? 'great' : pct >= 50 ? 'ok' : 'bad';
+
+    app.innerHTML = `
+        <div class="result-hero">
+            <div class="result-pct ${pctClass}">${pct}%</div>
+            <div class="result-sub">You scored <strong>${score}</strong> out of <strong>${total}</strong></div>
+        </div>
+        
+        <div class="stats-row">
+            <div class="stat-pill g">${score} Correct</div>
+            <div class="stat-pill r">${total - score} Wrong</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div>
+            ${userAnswers.map((ans, i) => `
+                <div class="review-item ${ans.isCorrect ? 'ok' : 'bad'}">
+                    <div class="review-q">${i + 1}. ${ans.q.question} <span style="font-size: 0.7em; color: var(--muted);">(From Quiz #${ans.q.originalQuiz})</span></div>
+                    <div class="review-detail">
+                        ${!ans.isCorrect ? `
+                            <div><span class="wrong-ans">Your answer: ${ans.selected.length ? ans.selected.join(', ') : 'None'}</span></div>
+                        ` : ''}
+                        <div><span class="correct-ans">Correct answer: ${ans.q.correct.join(', ')}</span></div>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+        
+        <div class="actions" style="margin-top: 20px;">
+            <button class="btn" id="home-btn">Try Again</button>
+        </div>
+    `;
+
+    document.getElementById('home-btn').addEventListener('click', () => {
+        // Shuffle again
+        for (let i = allQuestions.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [allQuestions[i], allQuestions[j]] = [allQuestions[j], allQuestions[i]];
+        }
+        renderMenu();
+    });
+}
+
+renderMenu();
+</script>
+</body>
+</html>
