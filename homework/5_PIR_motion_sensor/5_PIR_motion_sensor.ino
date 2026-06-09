@@ -9,7 +9,7 @@
 #include <Arduino.h>
 
 // Set GPIOs for LED and PIR Motion Sensor
-const uint8_t led = 4;
+const uint8_t led = 26;
 const uint8_t motionSensor = 27;
 
 // Timer: Auxiliary variables
